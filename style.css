@@ -9,9 +9,12 @@
   --bg-deep: #070908;
   --bg-deep-rgb: 7, 9, 8;
   --bg-dark: #0b0e0c;
-  --bg-card: #121714;
-  --bg-card-hover: #181f1b;
-  --bg-elevated: #1e2621;
+  --bg-card: rgba(18, 23, 20, 0.45);
+  --bg-card-hover: rgba(24, 31, 27, 0.65);
+  --bg-elevated: rgba(30, 38, 33, 0.55);
+  
+  --section-bg-deep: transparent;
+  --section-bg-dark: rgba(11, 14, 12, 0.45);
 
   --accent-color: #d4af37; /* Luxury Gold */
   --accent-rgb: 212, 175, 55;
@@ -54,6 +57,9 @@
   --bg-card-hover: #fcfbfa;
   --bg-elevated: #f7f1e6;
 
+  --section-bg-deep: transparent;
+  --section-bg-dark: rgba(243, 237, 226, 0.5);
+
   --accent-color: #c85a32; /* Rich Terracotta */
   --accent-rgb: 200, 90, 50;
   --text-primary: #2b2421;
@@ -92,6 +98,61 @@ body {
   line-height: 1.65;
   overflow-x: hidden;
   transition: background-color 0.6s var(--ease-smooth), color 0.6s var(--ease-smooth);
+  position: relative;
+}
+
+/* Ambient Premium Background Systems (Lounge Mode Only) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -2; /* Behind all content blocks */
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 1;
+  transition: opacity 0.8s var(--ease-smooth);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: -10vh;
+  left: -10vw;
+  width: 120vw;
+  height: 120vh;
+  pointer-events: none;
+  z-index: -1; /* Sits above the grid but behind all text cards */
+  background-image: 
+    radial-gradient(circle at 80% 20%, rgba(var(--accent-rgb), 0.09) 0%, transparent 40%),
+    radial-gradient(circle at 15% 60%, rgba(123, 157, 129, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 75% 85%, rgba(var(--accent-rgb), 0.07) 0%, transparent 35%);
+  animation: driftGlow 25s infinite ease-in-out;
+  opacity: 1;
+  transition: opacity 0.8s var(--ease-smooth);
+}
+
+/* Turn off ambient nightclub glow & luxury grid in Ekitcheni Mode */
+[data-theme="kitchen"] body::before,
+[data-theme="kitchen"] body::after {
+  opacity: 0;
+}
+
+@keyframes driftGlow {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(4deg) scale(1.08) translate(1vw, 2vh);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
 }
 
 img {
@@ -287,6 +348,16 @@ p {
 }
 
 /* --- Glass Cards --- */
+.glass-card,
+.menu-card,
+.story-feat-card,
+.floor-card,
+.booking-card,
+.booking-detail-card {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
 .glass-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -765,7 +836,7 @@ p {
    ========================================================================== */
 .story-section {
   padding: var(--section-padding) 0;
-  background: var(--bg-deep);
+  background: var(--section-bg-deep);
   position: relative;
   overflow: hidden;
   transition: background 0.6s var(--ease-smooth);
@@ -857,7 +928,7 @@ p {
    ========================================================================== */
 .floors-section {
   padding: var(--section-padding) 0;
-  background: var(--bg-dark);
+  background: var(--section-bg-dark);
   transition: background 0.6s var(--ease-smooth);
 }
 
@@ -973,7 +1044,7 @@ p {
    ========================================================================== */
 .menu-section {
   padding: var(--section-padding) 0;
-  background: var(--bg-deep);
+  background: var(--section-bg-deep);
   transition: background 0.6s var(--ease-smooth);
 }
 
@@ -1104,7 +1175,7 @@ p {
    ========================================================================== */
 .gallery-section {
   padding: var(--section-padding) 0;
-  background: var(--bg-dark);
+  background: var(--section-bg-dark);
   overflow: hidden;
   transition: background 0.6s var(--ease-smooth);
 }
@@ -1226,7 +1297,7 @@ p {
    ========================================================================== */
 .booking-section {
   padding: var(--section-padding) 0;
-  background: var(--bg-deep);
+  background: var(--section-bg-deep);
   position: relative;
   overflow: hidden;
   transition: background 0.6s var(--ease-smooth);
